@@ -4,11 +4,11 @@ This is a simple Space Invaders game implemented in JavaScript using the HTML5 C
 ## Installation
 Clone the repository to your local machine:
 
-`git clone https://github.com/yourusername/space-invaders-js.git`
+`https://github.com/K8215/space-invaders.git`
 
 Navigate to the project directory:
 
-`cd space-invaders-js`
+`cd space-invaders`
 
 Open index.html in your web browser to start the game.
 
