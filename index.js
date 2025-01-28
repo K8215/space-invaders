@@ -246,13 +246,13 @@ function alienFireMissiles() {
 }
 
 function collisions() {
-	function sphereDetection(obj1, obj2) {
+	function sphereDetection(sphere1, sphere2) {
 		return (
 			Math.hypot(
-				obj1.position.x - obj2.position.x,
-				obj1.position.y - obj2.position.y
+				sphere1.position.x - sphere2.position.x,
+				sphere1.position.y - sphere2.position.y
 			) <
-			obj1.radius + obj2.radius
+			sphere1.radius + sphere2.radius
 		);
 	}
 
