@@ -9,7 +9,7 @@ const keys = {
 const missiles = [];
 const aliens = [];
 const alienMissiles = [];
-const obstacles = [];
+const shields = [];
 let direction = "right";
 
 //Draw game screen
@@ -21,13 +21,12 @@ alienSpacing = 30;
 alienSize = 20;
 alienGrid = canvas.width / (alienSize + alienSpacing);
 alienTroops = alienGrid / 2;
-obstacleSize = 100;
-obstacleSpacing = 100;
-obstacleGrid = canvas.width / (obstacleSize + obstacleSpacing);
-obstacleNumber = obstacleGrid / 1.25;
-obstaclesWidth =
-	obstacleNumber * obstacleSize + (obstacleNumber - 1) * obstacleSpacing;
-obstaclesStart = (canvas.width - obstaclesWidth) / 2;
+shieldSize = 100;
+shieldSpacing = 100;
+shieldGrid = canvas.width / (shieldSize + shieldSpacing);
+shieldNumber = shieldGrid / 1.25;
+shieldsWidth = shieldNumber * shieldSize + (shieldNumber - 1) * shieldSpacing;
+shieldsStart = (canvas.width - shieldsWidth) / 2;
 playerSpeed = 5;
 playerColor = "#0000ff";
 missileSpeed = 5;
@@ -146,10 +145,10 @@ class AlienMissile {
 	}
 }
 
-class Obstacle {
+class Shield {
 	constructor({ position, length }) {
 		this.position = position;
-		this.width = obstacleSize;
+		this.width = shieldSize;
 		this.height = 20;
 	}
 
@@ -284,16 +283,16 @@ function collisions() {
 		});
 	});
 
-	obstacles.forEach((obstacle) => {
+	shields.forEach((shield) => {
 		alienMissiles.forEach((alienMissile) => {
-			if (sphereRectangleDetection(alienMissile, obstacle)) {
+			if (sphereRectangleDetection(alienMissile, shield)) {
 				alienMissiles.splice(alienMissiles.indexOf(alienMissile), 1);
-				obstacle.width -= 10;
+				shield.width -= 10;
 			}
 		});
 
 		missiles.forEach((missile) => {
-			if (sphereRectangleDetection(missile, obstacle)) {
+			if (sphereRectangleDetection(missile, shield)) {
 				missiles.splice(missiles.indexOf(missile), 1);
 			}
 		});
@@ -365,8 +364,8 @@ function animate() {
 	aliens.forEach((alien) => {
 		alien.update();
 	});
-	obstacles.forEach((obstacle) => {
-		obstacle.draw();
+	shields.forEach((shield) => {
+		shield.draw();
 	});
 	collisions();
 
@@ -396,6 +395,7 @@ function animate() {
 
 //Go!
 for (let i = 0; i < alienTroops; i++) {
+	//Generate aliens
 	aliens.push(
 		new Alien({
 			position: { x: (alienSize * 2 + alienSpacing) * (i + 1), y: 50 },
@@ -404,20 +404,23 @@ for (let i = 0; i < alienTroops; i++) {
 	);
 }
 
-for (let i = 0; i < obstacleNumber; i++) {
-	obstacles.push(
-		new Obstacle({
+for (let i = 0; i < shieldNumber; i++) {
+	//Generate shields
+	shields.push(
+		new Shield({
 			position: {
-				x: obstaclesStart + i * (obstacleSize + obstacleSpacing),
+				x: shieldsStart + i * (shieldSize + shieldSpacing),
 				y: canvas.height - 100,
 			},
 		})
 	);
 }
 
+//Move aliens and fire lasers
 const alienMovementInt = setInterval(alienMovement, alienSpeed);
 const alienFireInt = setInterval(alienFireMissiles, alienFireRate);
 
+//Generate player
 const player = new Player({
 	position: { x: canvas.width / 2, y: canvas.height - 50 },
 	velocity: { x: 0 },
