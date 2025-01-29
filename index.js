@@ -288,6 +288,7 @@ function collisions() {
 			if (sphereRectangleDetection(alienMissile, shield)) {
 				alienMissiles.splice(alienMissiles.indexOf(alienMissile), 1);
 				shield.width -= 10;
+				shield.position.x += 5;
 			}
 		});
 
